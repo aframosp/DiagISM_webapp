@@ -1,0 +1,5 @@
+# Ignoring temporal files
+.ipynb_checkpoints
+.cache
+__pycahe__/
+*.py[cod]

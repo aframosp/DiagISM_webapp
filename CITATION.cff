@@ -1,0 +1,29 @@
+# YAML 1.2
+---
+authors: 
+  -
+    family-names: "Ramos Padilla"
+    given-names: "Andres Felipe"
+    orcid: "https://orcid.org/0000-0002-4561-2452"
+cff-version: "1.1.0"
+keywords: 
+  - astronomy
+  - DiagISM
+  - "data analysis"
+  - galaxies
+  - ISM
+  - FIR
+  - luminosity
+  - SFR
+  - ISRF
+  - Metallicity
+  - Density
+  - "Stellar mass"
+  - "Gas mass"
+  - "External pressure"
+  - "Size neutral clouds"
+license: "GPL-3.0"
+message: "If you use this web app, please cite it using these metadata."
+repository-code: "https://github.com/aframosp/DiagISM_webapp"
+title: "DiagISM web app from the "Diagnosing the interstellar medium of galaxies with far-infrared emission lines" series of papers"
+...
