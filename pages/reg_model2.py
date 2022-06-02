@@ -52,7 +52,7 @@ def page():
     dataset['log(1+z)'] = np.log10(dataset['z']+1)
 
     st.sidebar.header('User input parameters')
-    st.sidebar.write("""Select the values for the parameters. Luminosities are in log(Lsun) units,
+    st.sidebar.write("""Select the values for the parameters or upload a CSV file. Luminosities are in log(Lsun) units,
     described as Lum_LINE where the number is the wavelength of emission in microns.""")
 
     dict_conv = {'Lum_OIII_52': 'L$_{\\mathrm{OIII_{52}}}$',

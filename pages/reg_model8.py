@@ -50,7 +50,7 @@ def page():
     dataset['log(1+z)'] = np.log10(dataset['z']+1)
 
     st.sidebar.header('User input parameters')
-    st.sidebar.write("""Select the values for the parameters. Luminosities are in log(Lsun) units,
+    st.sidebar.write("""Select the values for the parameters or upload a CSV file. Luminosities are in log(Lsun) units,
     described as Lum_LINE where the number is the wavelength of emission in microns.""")
 
     dict_conv = {'Lum_OIII_52': 'L$_{\\mathrm{OIII_{52}}}$',
@@ -164,14 +164,14 @@ def page():
         fin_16 = np.quantile(trans_indiv, 0.16)
         if gal <10:
             fig = plt.figure()
-            hist(trans_indiv,  density=True, bins='freedman', histtype='step')
+            hist(trans_indiv,  density=True, bins='scott', histtype='step')
             plt.axvline(x=fin_med, c='C1', label='median')
             plt.axvline(x=fin_mean, c='C1', ls='--', label='mean')
             plt.axvline(x=fin_84, c='C2', label='16th and 84th percentiles')
             plt.axvline(x=fin_16, c='C2')
             plt.xlabel('Estimated parameter value [%s]' % param_unit)
             plt.ylabel('Density')
-            plt.legend()
+            plt.legend(fontsize=8)
             plt.title('Galaxy %i' % gal)
             st.pyplot(fig)
         if gal ==11:

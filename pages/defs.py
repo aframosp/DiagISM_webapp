@@ -12,14 +12,14 @@ def user_input_features():
     """Obtaining user defined values"""
     reds = st.sidebar.slider('Redshift', 0, 6, 2)
     col1, col2 = st.sidebar.columns(2)
-    lum_oiii52 = col1.number_input('Lum_OIII_52', 3.0, 10.0, 6.0, 0.1)
-    lum_niii57 = col1.number_input('Lum_NIII_57', 3.0, 10.0, 6.0, 0.1)
-    lum_oi63 = col1.number_input('Lum_OI_63', 3.0, 10.0, 6.0, 0.1)
-    lum_oiii88 = col1.number_input('Lum_OIII_88', 3.0, 10.0, 6.0, 0.1)
-    lum_nii122 = col2.number_input('Lum_NII_122', 3.0, 10.0, 6.0, 0.1)
-    lum_oi145 = col2.number_input('Lum_OI_145', 3.0, 10.0, 6.0, 0.1)
-    lum_cii = col2.number_input('Lum_CII_158', 3.0, 10.0, 6.0, 0.1)
-    lum_nii205 = col2.number_input('Lum_NII_205', 3.0, 10.0, 6.0, 0.1)
+    lum_oiii52 = col1.number_input('Lum_OIII_52', 3.0, 11.0, 6.0, 0.1)
+    lum_niii57 = col1.number_input('Lum_NIII_57', 3.0, 11.0, 6.0, 0.1)
+    lum_oi63 = col1.number_input('Lum_OI_63', 3.0, 11.0, 6.0, 0.1)
+    lum_oiii88 = col1.number_input('Lum_OIII_88', 3.0, 11.0, 6.0, 0.1)
+    lum_nii122 = col2.number_input('Lum_NII_122', 3.0, 11.0, 6.0, 0.1)
+    lum_oi145 = col2.number_input('Lum_OI_145', 3.0, 11.0, 6.0, 0.1)
+    lum_cii = col2.number_input('Lum_CII_158', 3.0, 11.0, 6.0, 0.1)
+    lum_nii205 = col2.number_input('Lum_NII_205', 3.0, 11.0, 6.0, 0.1)
     data = {'z': np.log10(1+reds),
             'Lum_OIII_52': lum_oiii52,
             'Lum_NIII_57': lum_niii57,
@@ -56,18 +56,28 @@ def user_parameter():
 
 def create_mocks(values, features, sys_error=False):
     """Create mock values to estimate the error on the prediction"""
+    if sys_error:
+        sigma = 0.5
+    else:
+        sigma = st.sidebar.slider('Assumed error [dex]', 0.05, 1.0, 0.5, 0.05)
     nlines = values.shape[1]
     np.random.seed(42)
-    nrows = 2000  # with 2000 is 40 gal / min
+    nrows = 2000
     rows = np.zeros((values.shape[0], nrows, nlines))
-    info = features.describe(include='all')
     for igal in range(values.shape[0]):
-        shift = (np.nanmean(values[igal] - info.loc['mean']) +
-                 (2*np.random.random(size=nrows) - 1))
+        loc_cols = np.unique(np.where(~np.isnan(values[igal]))[0])[:-1]
+        cond1 = (features[features.columns[loc_cols]] <= values[igal][loc_cols]+sigma).all(axis=1)
+        cond2 = (features[features.columns[loc_cols]] >= values[igal][loc_cols]-sigma).all(axis=1)
+        info = features[cond1 & cond2].describe()
+        if info.isnull().values.any():
+            st.write("""No luminosity values in the simulation similar to the input,
+                     increase the sigma if prefered. Other way we use the average of the input.""")
+            bad_sol = pd.DataFrame([values[igal]]).describe()
+            bad_sol.loc['mean'] = np.nanmean(values[igal][:-1])
+            info = bad_sol
+            st.write(info)
         for col in range(nlines):
-            #                 rand_lum = info.loc['std'][col] * (2*random.random(size=nrows) - 1)
-            #                 rand_lum = np.random.normal(info.loc['mean'][col], 0.5, nrows)
-            rand_lum = info.loc['mean'][col] + shift
+            rand_lum = np.random.normal(info.loc['mean'][col], sigma, nrows)
             if ~np.isnan(values[igal][col]):
                 if col == nlines-1:
                     # Redshift does not change
