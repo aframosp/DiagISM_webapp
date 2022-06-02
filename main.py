@@ -11,8 +11,8 @@ from pages import reg_model2, reg_model8, csv_information
 
 st.write("""
 # DiagISM web app
-This web app can help you to predict the ISM physical information of galaxies using 
-FIR luminosities.
+This web app can help you to predict the global interstellar medium (ISM) physical information properties of galaxies using 
+far-infrared (FIR) luminosities.
 """)
 
 
@@ -35,6 +35,7 @@ def main():
         st.sidebar.write("""
         Select one of the models you want to execute
         """)
+        st.write("## Research information")
         st.markdown("""
         The information presented in this web app has been created with the research results
         presented in the
@@ -46,6 +47,18 @@ def main():
         * [III. Physical parameters of observed galaxies (This web app, in prep.)]()
         
         Please acknowledge these papers if you have used this web app.""")
+        st.write("## Usage web app")
+        st.markdown(""" 
+        This web app is an easy-to-use environment for researchers (and curious people) to estimate and retrieve physical ISM parameters that we would expect in galaxies given the luminosities of the main FIR emission lines (between 10$^{2}$ and 10$^{10}$ Lsun). Two different models are available to obtain the estimates: One model uses all the information of the eight luminosities of the FIR lines and the other uses the information of the FIR lines selected by the user. The web app allows to predict one ISM physical parameter at a time from the following list
+* Star Formation Rate (SFR) [Msun/yr]
+* Metallicity [Z/Zsun]
+* Neutral cloud density [cm$^{-3}$]
+* Interstellar Radiation Field (ISRF) [Habing]
+* Pressure [K/cm$^3$]
+* Neutral cloud size [pc]
+* Stellar mass [Msun]
+* Gas mass [Msun]
+The estimated information can then be retrieved in a CSV file format that can be used for future research.""")
 
     if analysis_type == 'Model with selected FIR lines':
         reg_model2.page()
