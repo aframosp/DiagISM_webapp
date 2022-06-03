@@ -57,9 +57,9 @@ def user_parameter():
 def create_mocks(values, features, sys_error=False):
     """Create mock values to estimate the error on the prediction"""
     if sys_error:
-        sigma = 0.5
+        sigma = 0.2
     else:
-        sigma = st.sidebar.slider('Assumed error [dex]', 0.05, 1.0, 0.5, 0.05)
+        sigma = st.sidebar.slider('Assumed error [dex]', 0.05, 1.0, 0.2, 0.05)
     nlines = values.shape[1]
     np.random.seed(42)
     nrows = 2000
@@ -70,14 +70,16 @@ def create_mocks(values, features, sys_error=False):
         cond2 = (features[features.columns[loc_cols]] >= values[igal][loc_cols]-sigma).all(axis=1)
         info = features[cond1 & cond2].describe()
         if info.isnull().values.any():
-            st.write("""No luminosity values in the simulation similar to the input,
-                     increase the sigma if prefered. Other way we use the average of the input.""")
+            st.info("""No luminosity values in the simulation dataset similar to the input
+            (Galaxy row %s). Using the average of the input luminosities. If you do not want these
+            increase the sigma."""%igal)
             bad_sol = pd.DataFrame([values[igal]]).describe()
             bad_sol.loc['mean'] = np.nanmean(values[igal][:-1])
+            bad_sol.loc['std'] = max(np.nanstd(values[igal][:-1]), 0.05)
             info = bad_sol
-            st.write(info)
         for col in range(nlines):
-            rand_lum = np.random.normal(info.loc['mean'][col], sigma, nrows)
+            sigma2 = np.sqrt(sigma**2 + info.loc['std'][col]**2)
+            rand_lum = np.random.normal(info.loc['mean'][col], sigma2, nrows)
             if ~np.isnan(values[igal][col]):
                 if col == nlines-1:
                     # Redshift does not change
@@ -85,7 +87,7 @@ def create_mocks(values, features, sys_error=False):
                 else:
                     if sys_error:
                         rows[igal, :, col] = np.random.normal(
-                            values[igal][col], 0.2, nrows)
+                            values[igal][col], sigma, nrows)
                     else:
                         rows[igal, :, col] = np.random.normal(
                             values[igal][col], 0.01, nrows)

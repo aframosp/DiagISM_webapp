@@ -185,7 +185,6 @@ def page():
     st.success('Results obtained!')
     st.write("Results took", np.round(
         time.time() - start_time, 2), "[s] to run")
-
     csv = convert_df(final_output)
     h_row1 = b'# Predictions obtained from DiagISM \n'
     h_row2 = bytes('# Date execution time: %s UTC \n' %
