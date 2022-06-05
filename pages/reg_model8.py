@@ -167,7 +167,7 @@ def page():
             hist(trans_indiv,  density=True, bins='scott', histtype='step')
             plt.axvline(x=fin_med, c='C1', label='median')
             plt.axvline(x=fin_mean, c='C1', ls='--', label='mean')
-            plt.axvline(x=fin_84, c='C2', label='16th and 84th percentiles')
+            plt.axvline(x=fin_84, c='C2', label='16th and 84th\n percentiles')
             plt.axvline(x=fin_16, c='C2')
             plt.xlabel('Estimated parameter value [%s]' % param_unit)
             plt.ylabel('Density')

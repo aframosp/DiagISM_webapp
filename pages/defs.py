@@ -71,8 +71,7 @@ def create_mocks(values, features, sys_error=False):
         info = features[cond1 & cond2].describe()
         if info.isnull().values.any():
             st.info("""No luminosity values in the simulation dataset similar to the input
-            (Galaxy row %s). Using the average of the input luminosities. If you do not want these
-            increase the sigma."""%igal)
+            (Galaxy row %s). Using the average of the input luminosities."""%igal)
             bad_sol = pd.DataFrame([values[igal]]).describe()
             bad_sol.loc['mean'] = np.nanmean(values[igal][:-1])
             bad_sol.loc['std'] = max(np.nanstd(values[igal][:-1]), 0.05)
