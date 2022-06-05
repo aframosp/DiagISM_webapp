@@ -97,8 +97,8 @@ def page():
                 'Metallicity': 'ZGal',
                 'Pressure': 'Pressure',
                 'Density': r'n$(\mathrm{H})_{\mathrm{cloud}}$',
-                'Gas Mass': r'M$_{\mathrm{\ast}}$',
-                'Stellar Mass': r'M$_{\mathrm{gas}}$',
+                'Stellar Mass': r'M$_{\mathrm{\ast}}$',
+                'Gas Mass': r'M$_{\mathrm{gas}}$',
                 'Neutral cloud size': r'R$_{\mathrm{cloud}}$'}
     test_param = user_parameter()
     param_unit = dataset[dict_par[test_param[0]]].unit
