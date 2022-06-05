@@ -107,7 +107,7 @@ def page():
 
     scalerx = preprocessing.RobustScaler()
     scalery = preprocessing.RobustScaler()
-    x_scale = scalerx.fit_transform(x_df)
+    x_scale = scalerx.fit_transform(x_df.values)
     y_scale = scalery.fit_transform(y_df)
 
     st.write('Physical parameter to be predicted: ', test_param[0])
