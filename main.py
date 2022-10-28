@@ -9,23 +9,27 @@ import streamlit as st
 
 from pages import reg_model2, reg_model8, csv_information
 
+# Info page
+st.set_page_config(page_title="DiagISM app", page_icon="files/logo_DiagISM.png")
+
+# Title with logo
+col1, mid, col2 = st.columns([20, 1, 20])
+with col1:
+    st.write("""# DiagISM web app """)
+with col2:
+    st.image("files/logo_DiagISM.png", width=120)
+
 st.write("""
-# DiagISM web app
 This web app can help you to predict the global interstellar medium (ISM) physical information properties of galaxies using 
 far-infrared (FIR) luminosities.
 """)
-
 
 def main():
     """
     Main is responsible for the visualisation of everything connected with streamlit.
     It is the web application itself.
     """
-
-    # Sets sidebar's header and logo
-#     st.sidebar_head()
-#     st.image()
-
+    
     analysis_type = st.sidebar.selectbox("Analysis models and information",
                                          ['Home', 'Model with selected FIR lines',
                                           'Model with 8 FIR Lines', 'CSV files information'])
@@ -66,10 +70,10 @@ The estimated information can then be retrieved in a CSV file format that can be
         reg_model8.page()
     elif analysis_type == 'CSV files information':
         csv_information.page()
-    st.warning(
-        "This web app is still under construction. Predictions need some more testing.")
-    st.write("""
-        Andrés Felipe Ramos Padilla - May 2022.
+    
+    lcol, centcol, rcol = st.columns([1, 2, 1])
+    centcol.caption("""
+        Andrés Felipe Ramos Padilla - Oct 2022.
         """)
 
 
