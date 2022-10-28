@@ -1,10 +1,12 @@
-# DiagISM web app
+# DiagISM web app 
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/aframosp/DiagISM_webapp/main/main.py)
 
 This repository contains the code to run the web app that can help you to predict the ISM physical information of galaxies using FIR luminosities.
 
-![DiagISM logo](https://github.com/aframosp/DiagISM_webapp/blob/main/file/logo_DiagISM.png?raw=true)
+<p align="center">
+<img src="https://github.com/aframosp/DiagISM_webapp/blob/main/files/logo_DiagISM.png" width=20% height=20%>
+</p>
 
 The information presented in this web app has been created with the research results presented in the "Diagnosing the interstellar medium of galaxies with far-infrared emission lines" series of papers:
 
